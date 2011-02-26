@@ -1,12 +1,16 @@
 package Mojolicious::Plugin::Cache;
 
 BEGIN {
-    $Mojolicious::Plugin::Cache::VERSION = '0.0012';    # TRIAL
+    $Mojolicious::Plugin::Cache::VERSION = '0.0013';
 }
 
 # Module implementation
 #
 1;
+
+# ABSTRACT: Mojolicious plugin for caching
+
+__END__
 
 =pod
 
@@ -16,29 +20,19 @@ Mojolicious::Plugin::Cache - Mojolicious plugin for caching
 
 =head1 VERSION
 
-version 0.0012
+version 0.0013
 
 =head1 SYNOPSIS
 
-# Action caching
+Action caching:
 
-## Mojolicious
+  plugin 'cache-action';
+  $self->plugin('cache-action');
 
-$self->plugin('cache-action');
+Page caching:
 
-## Mojolicious::Lite
-
-plugin 'cache-action';
-
-# Page caching
-
-## Mojolicious
-
-$self->plugin('cache-page');
-
-## Mojolicious::Lite
-
-plugin 'cache-page'
+ plugin 'cache-page'
+ $self->plugin('cache-page');
 
 =head1 DESCRIPTION
 
@@ -76,7 +70,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-__END__
-
-# ABSTRACT: Mojolicious plugin for caching
