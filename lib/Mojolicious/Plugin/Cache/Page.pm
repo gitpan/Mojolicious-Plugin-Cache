@@ -1,7 +1,6 @@
 package Mojolicious::Plugin::Cache::Page;
-
-BEGIN {
-    $Mojolicious::Plugin::Cache::Page::VERSION = '0.0015';
+{
+    $Mojolicious::Plugin::Cache::Page::VERSION = '0.0017';    # TRIAL
 }
 
 use strict;
@@ -32,9 +31,9 @@ sub register {
         $actions = { map { $_ => 1 } @{ $conf->{actions} } };
     }
 
-    $app->plugins->add_hook(
+    $app->hook(
         'after_dispatch' => sub {
-            my ( $self, $c ) = @_;
+            my ($c) = @_;
 
             ## - has to be GET request
             return if $c->req->method ne 'GET';
@@ -90,7 +89,7 @@ Mojolicious::Plugin::Cache::Page - Page caching plugin
 
 =head1 VERSION
 
-version 0.0015
+version 0.0017
 
 =head1 SYNOPSIS
 

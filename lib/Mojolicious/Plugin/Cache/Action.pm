@@ -1,22 +1,20 @@
 package Mojolicious::Plugin::Cache::Action;
-
-BEGIN {
-    $Mojolicious::Plugin::Cache::Action::VERSION = '0.0015';
+{
+    $Mojolicious::Plugin::Cache::Action::VERSION = '0.0017';    # TRIAL
 }
 
 use strict;
 use warnings;
 use CHI;
 use Carp;
+use Mojo::Base -base;
 use base qw/Mojolicious::Plugin/;
 
 # Module implementation
 #
 
-my $cache;
-my $actions;
-
-__PACKAGE__->attr( 'driver' => 'Memory' );
+my ( $actions, $cache );
+has 'driver' => 'Memory';
 
 sub register {
     my ( $self, $app, $conf ) = @_;
@@ -42,10 +40,10 @@ sub register {
         $cache->on_get_error('log');
     }
 
-    $app->plugins->add_hook(
+    $app->hook(
         'before_dispatch' => sub {
-            my ( $self, $c ) = @_;
-            my $path = $c->tx->req->url->to_abs->to_string;
+            my ($c) = @_;
+            my $path = $c->req->url->to_abs->to_string;
             $app->log->debug( ref $path );
             if ( $cache->is_valid($path) ) {
                 $app->log->debug("serving from cache for $path");
@@ -58,9 +56,9 @@ sub register {
         }
     );
 
-    $app->plugins->add_hook(
+    $app->hook(
         'after_dispatch' => sub {
-            my ( $self, $c ) = @_;
+            my ($c) = @_;
 
             #conditions at which no caching will be done
             ## - it is already a cached response
@@ -108,7 +106,7 @@ Mojolicious::Plugin::Cache::Action - Action caching plugin
 
 =head1 VERSION
 
-version 0.0015
+version 0.0017
 
 =head1 SYNOPSIS
 
